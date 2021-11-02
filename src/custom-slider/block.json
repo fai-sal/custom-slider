@@ -1,0 +1,26 @@
+{
+	"name": "cgb/custom-slider",
+	"title": "Custom Slider2",
+	"category": "common",
+	"description": "Showcase important info with rich Slider",
+	"keywords": [ "custom-slider" ],
+	"textdomain": "default",
+	"attributes": {
+		"items": {
+			"type": "array",
+			"default":[]
+		},
+		"autoTransition ": {
+			"type": "boolean",
+			"default":true
+		},
+		"navArrows": {
+			"type": "boolean",
+			"default": true
+		},
+		"dots": {
+			"type": "boolean",
+			"default": true
+		}
+	}
+}
