@@ -6,11 +6,11 @@
 	"keywords": [ "custom-slider" ],
 	"textdomain": "default",
 	"attributes": {
-		"items": {
+		"sliderItems": {
 			"type": "array",
 			"default":[]
 		},
-		"autoTransition ": {
+		"autoPlay ": {
 			"type": "boolean",
 			"default":true
 		},

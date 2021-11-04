@@ -3,12 +3,52 @@
  *
  * CSS for both Frontend+Backend.
  */
+.gutenberg-custom-slider {
+	position: relative;
+	.slider-wrapper {
+		position: relative;
+		margin: 0 auto;
+		overflow: hidden;
+		.slider {
+			display: flex;
+			width: 100%;
+			transition: 400ms;
+			transform: translateX(0);
+			.slider-item {
+				flex-basis: 100%;
+				max-width: 100%;
+				min-width: 100%;
+				display: inline-block;
+			}
+		}
+	}
 
-.wp-block-cgb-block-custom-slider  {
-  background: $red;
-  border: 0.2rem solid $black;
-  color: $black;
-  margin: 0 auto;
-  max-width: 740px;
-  padding: 2rem;
+	.slider-nav-btns {
+		position: absolute;
+		z-index: 1;
+		top: 50%;
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+	}
+	.slider-dots {
+		position: absolute;
+		left: 50%;
+		bottom: 20px;
+		transform: translateX(-50%);
+		z-index: 2;
+		.slider-dot {
+			height: 10px;
+			width: 20px;
+			margin: 10px;
+			border: none;
+			cursor: pointer;
+			padding: 0;
+			background: black;
+			border-radius: 5px;
+			&.active {
+				background: #ffa74a;
+			}
+		}
+	}
 }
