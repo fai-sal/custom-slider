@@ -2,7 +2,12 @@
  * internal dependencies
  */
 import { __ } from "@wordpress/i18n";
-import { PanelBody, ToggleControl } from "@wordpress/components";
+import {
+	PanelBody,
+	ToggleControl,
+	RangeControl,
+	TextControl
+} from "@wordpress/components";
 import { Fragment } from "@wordpress/element";
 import {
 	InspectorControls,
@@ -22,7 +27,17 @@ export default function Edit(props) {
 	const {
 		className,
 		setAttributes,
-		attributes: { sliderItems, autoPlay, navArrows, dots },
+		attributes: {
+			sliderItems,
+			autoPlay,
+			autoPlayInterval,
+			linkItems,
+			navArrows,
+			dots,
+			links,
+			ctaBtns,
+			ctaBtnTexts,
+		},
 	} = props;
 
 
@@ -55,7 +70,10 @@ export default function Edit(props) {
 
 
 	const sliderSettings = {
-		autoPlay, navArrows, dots
+		autoPlay,
+		navArrows,
+		dots,
+		interval: autoPlayInterval
 	}
 	const classNames = classnames("custom-carousel", className);
 
@@ -69,6 +87,18 @@ export default function Edit(props) {
 							label={__("Auto Play")}
 							onChange={(value) => setAttributes({ autoPlay: value })}
 						/>
+						{
+							autoPlay &&
+							<RangeControl
+								label={__('Autoplay Interval')}
+								min={500}
+								max={4000}
+								help={__('In milliseconds')}
+								onChange={(value) => setAttributes({ autoPlayInterval: value })}
+								step={100}
+								value={autoPlayInterval}
+							/>
+						}
 						<ToggleControl
 							checked={navArrows}
 							label={__("Navigation Arrows")}
@@ -79,7 +109,34 @@ export default function Edit(props) {
 							label={__("Dots")}
 							onChange={(value) => setAttributes({ dots: value })}
 						/>
+						<ToggleControl
+							checked={linkItems}
+							label={__("Link Items")}
+							onChange={(value) => setAttributes({ linkItems: value })}
+						/>
+						<ToggleControl
+							checked={ctaBtns}
+							label={__("Show Buttons")}
+							onChange={(value) => setAttributes({ ctaBtns: value })}
+						/>
+
 					</PanelBody>
+					{
+						linkItems && (
+							<PanelBody title={__('Links')} initialOpen={false}>
+								{
+									sliderItems.map((_, index) => (
+										<TextControl
+											key={index}
+											label={__(`Link of Item-${index + 1}`)}
+											value={links[index]}
+											onChange={(value) => setAttributes({ links: { ...links, [index]: value } })}
+										/>
+									))
+								}
+							</PanelBody>
+						)
+					}
 				</InspectorControls>
 			)}
 			<div className={classNames}>
@@ -96,7 +153,14 @@ export default function Edit(props) {
 					/>
 				) : (
 					<div className="gutenberg-custom-slider">
-						<Slider slides={sliderItems} sliderSettings={sliderSettings} />
+						<Slider
+							slides={sliderItems}
+							sliderSettings={sliderSettings}
+							linkItems={linkItems}
+							links={links}
+							ctaBtns={ctaBtns}
+							ctaBtnTexts={ctaBtnTexts}
+							setAttributes={setAttributes} />
 						{/* <MediaUpload
 						multiple
 						onSelect={(selectedImage) => {

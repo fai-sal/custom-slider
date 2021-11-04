@@ -21,11 +21,11 @@ const { name, attributes, description } = metadata;
  * Registering  Block.
  */
 registerBlockType(name, {
-	title: __("custom-slider"),
+	title: __("Media Slider"),
 	description,
 	icon: "shield",
 	category: "common",
-	keywords: [__("custom-slider")],
+	keywords: [__("Media slider")],
 	edit: Edit,
 	save: Save,
 	attributes,

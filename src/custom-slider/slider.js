@@ -3,9 +3,19 @@
  */
 import { __ } from "@wordpress/i18n";
 import { useState, useEffect, useRef, Fragment } from '@wordpress/element';
+import { RichText } from '@wordpress/block-editor'
 import classnames from 'classnames';
 
-const Slider = ({ slides, sliderSettings: { autoPlay, navArrows, dots } }) => {
+const Slider = ({
+    slides,
+    linkItems,
+    links,
+    ctaBtns,
+    ctaBtnTexts,
+    setAttributes,
+    sliderSettings: { autoPlay, navArrows, dots, interval }
+}) => {
+
     const [activeIndex, setActiveIndex] = useState(0);
     const [isHovered, setHovered] = useState(false);
     const slidesRef = useRef([]);
@@ -45,24 +55,23 @@ const Slider = ({ slides, sliderSettings: { autoPlay, navArrows, dots } }) => {
 
     useEffect(() => {
         if (autoPlay) {
-
-            let transitionTime = 1000;
-            if (activeItem.type === 'video' && activeItem.fileLength > transitionTime) {
-                transitionTime = activeItem.fileLength;
+            let transitionDelay = interval;
+            if (activeItem.type === 'video' && activeItem.fileLength > transitionDelay) {
+                transitionDelay = activeItem.fileLength;
             }
-            const interval = setInterval(() => {
+            const intervalId = setInterval(() => {
                 if (!isHovered) {
                     setActiveIndex(() => (activeIndex + 1) % slides.length);
                 }
-            }, transitionTime)
+            }, transitionDelay)
 
             return () => {
-                if (interval) {
-                    clearInterval(interval);
+                if (intervalId) {
+                    clearInterval(intervalId);
                 }
             }
         }
-    }), [slides, autoPlay];
+    }), [slides, autoPlay, interval];
 
     return (
         <Fragment>
@@ -88,18 +97,34 @@ const Slider = ({ slides, sliderSettings: { autoPlay, navArrows, dots } }) => {
                 onMouseLeave={() => setHovered(false)}
             >
                 <div className="slider" style={style}>
-                    {slides.map((slide, i) => (
-                        <div className="slider-item" >
-                            {
-                                slide.type === 'image' ?
-                                    <img src={slide.url} alt={slide.alt | slide.id} ref={el => slidesRef.current[i] = el} />
-                                    :
-                                    <video autoPlay muted controls ref={el => slidesRef.current[i] = el} >
-                                        <source src={slide.url} type="video/mp4" />
-                                    </video>
-                            }
-                        </div>
-                    ))}
+                    {slides.map((slide, i) => {
+                        let Wraper = "Div";
+                        console.log('linkItems : ', linkItems)
+                        if (linkItems) {
+                            Wraper = "a"
+                        }
+                        return (
+                            <Wraper className="slider-item" {...(linkItems && { href: `//${links[i]}`, target: 'blank' })}>
+                                {
+                                    slide.type === 'image' ?
+                                        <img src={slide.url} alt={slide.alt | slide.id} ref={el => slidesRef.current[i] = el} />
+                                        :
+                                        <video autoPlay muted controls ref={el => slidesRef.current[i] = el} >
+                                            <source src={slide.url} type="video/mp4" />
+                                        </video>
+                                }
+                                {ctaBtns && (
+                                    <RichText
+                                        tagName="button"
+                                        className="cta-btn"
+                                        placeholder={__('Add Text...')}
+                                        onChange={value => setAttributes({ ctaBtnTexts: { ...links, [i]: value } })}
+                                        value={ctaBtnTexts[i]}
+                                    />
+                                )}
+                            </Wraper>
+                        )
+                    })}
                 </div>
             </div>
         </Fragment>

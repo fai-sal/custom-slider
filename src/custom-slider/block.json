@@ -1,18 +1,39 @@
 {
-	"name": "cgb/custom-slider",
-	"title": "Custom Slider2",
+	"name": "cgb/media-slider",
+	"title": "Media Slider",
 	"category": "common",
 	"description": "Showcase important info with rich Slider",
-	"keywords": [ "custom-slider" ],
+	"keywords": [ "Media-slider" ],
 	"textdomain": "default",
 	"attributes": {
 		"sliderItems": {
 			"type": "array",
 			"default":[]
 		},
-		"autoPlay ": {
+		"linkItems": {
 			"type": "boolean",
-			"default":true
+			"default":false
+		},
+		"links": {
+			"type": "object",
+			"default":{}
+		},
+		"ctaBtns": {
+			"type": "boolean",
+			"default":false
+		},
+		"ctaBtnTexts": {
+			"type": "object",
+			"default":{}
+		},
+		
+		"autoPlay": {
+			"type": "boolean",
+			"default": true
+		},
+		"autoPlayInterval": {
+			"type": "number",
+			"default": 1500
 		},
 		"navArrows": {
 			"type": "boolean",

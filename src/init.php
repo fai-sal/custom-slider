@@ -75,7 +75,7 @@ function custom_slider_cgb_block_assets() { // phpcs:ignore
 	 * @since 1.16.0
 	 */
 	register_block_type(
-		'cgb/custom-slider', array(
+		'cgb/media-slider', array(
 			// Enqueue blocks.style.build.css on both frontend & backend.
 			'style'         => 'custom_slider-cgb-style-css',
 			// Enqueue blocks.build.js in the editor only.

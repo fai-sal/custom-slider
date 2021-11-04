@@ -26,11 +26,22 @@
           -ms-transform: translateX(0);
               transform: translateX(0); }
       .gutenberg-custom-slider .slider-wrapper .slider .slider-item {
+        position: relative;
         -ms-flex-preferred-size: 100%;
             flex-basis: 100%;
         max-width: 100%;
         min-width: 100%;
-        display: inline-block; }
+        display: -ms-inline-flexbox;
+        display: inline-flex; }
+        .gutenberg-custom-slider .slider-wrapper .slider .slider-item img {
+          height: 500px;
+          width: 100%;
+          -o-object-fit: cover;
+             object-fit: cover; }
+        .gutenberg-custom-slider .slider-wrapper .slider .slider-item .cta-btn {
+          position: absolute;
+          bottom: 20%;
+          z-index: 1; }
   .gutenberg-custom-slider .slider-nav-btns {
     position: absolute;
     z-index: 1;
