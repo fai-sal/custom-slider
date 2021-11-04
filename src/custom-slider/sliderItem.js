@@ -5,7 +5,9 @@ const SliderItem = ({ slide: { type, url, alt, id } }) => {
                 type === 'image' ?
                     <img src={url} alt={alt | id} />
                     :
-                    <div>video</div>
+                    <video >
+                        <source src={url} type="video/mp4" />
+                    </video>
             }
         </div>
     )

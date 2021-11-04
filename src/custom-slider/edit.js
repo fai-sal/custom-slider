@@ -26,19 +26,28 @@ export default function Edit(props) {
 	} = props;
 
 
+	const getVideoLength = (fileLength) => {
+		const [min, second] = fileLength.split(':');
+		return (parseInt(min) * 60 + parseInt(second)) * 1000
+	}
+
 	/**
 	 * Update Carousel items 
 	 * on media selection
 	 * @param {*} selectedMedias 
 	 */
 	const onSelectMedia = (selectedMedias) => {
+		// console.log(selectedMedias)
 		const filteredData = selectedMedias.map(
-			({ id, type, alt, url, sizes }) => ({
+			({ id, type, alt, url, sizes, fileLength }) => ({
 				id,
 				type,
 				alt,
 				url,
 				sizes,
+				...(type === 'video' && {
+					fileLength: getVideoLength(fileLength)
+				})
 			})
 		);
 		setAttributes({ sliderItems: filteredData })

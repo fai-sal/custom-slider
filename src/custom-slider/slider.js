@@ -3,12 +3,16 @@
  */
 import { __ } from "@wordpress/i18n";
 import { useState, useEffect, useRef, Fragment } from '@wordpress/element';
-import SliderItem from './sliderItem';
 import classnames from 'classnames';
 
 const Slider = ({ slides, sliderSettings: { autoPlay, navArrows, dots } }) => {
-    const [activeItem, setActiveItem] = useState(false);
+    const [activeIndex, setActiveIndex] = useState(0);
     const [isHovered, setHovered] = useState(false);
+    const slidesRef = useRef([]);
+
+    useEffect(() => {
+        slidesRef.current = slidesRef.current.slice(0, slides.length);
+    }, [slides]);
 
     /**
      * Set Active item of slider
@@ -16,56 +20,86 @@ const Slider = ({ slides, sliderSettings: { autoPlay, navArrows, dots } }) => {
      */
     const updateSlider = (newIndex) => {
         if (newIndex < 0) {
-            setActiveItem(slides.length - 1)
+            setActiveIndex(slides.length - 1)
         } else if (newIndex >= slides.length) {
-            setActiveItem(0)
+            setActiveIndex(0)
         } else {
-            setActiveItem(newIndex)
+            setActiveIndex(newIndex)
         }
     }
 
     const style = {
-        transform: `translateX(${(activeItem * -100)}%)`,
+        transform: `translateX(${(activeIndex * -100)}%)`,
     };
+    const activeItem = slides[activeIndex];
+
+    /**
+     * Autoplay video for subsequent cases
+     */
+    useEffect(() => {
+        if (activeItem.type === 'video') {
+            slidesRef.current[activeIndex].play()
+        }
+    }, [activeIndex]);
+
 
     useEffect(() => {
         if (autoPlay) {
+
+            let transitionTime = 1000;
+            if (activeItem.type === 'video' && activeItem.fileLength > transitionTime) {
+                transitionTime = activeItem.fileLength;
+            }
             const interval = setInterval(() => {
                 if (!isHovered) {
-                    setActiveItem(() => (activeItem + 1) % slides.length);
+                    setActiveIndex(() => (activeIndex + 1) % slides.length);
                 }
-            }, 1000)
+            }, transitionTime)
+
             return () => {
                 if (interval) {
                     clearInterval(interval);
                 }
             }
         }
-    }), [autoPlay];
+    }), [slides, autoPlay];
 
     return (
         <Fragment>
             {navArrows && (
                 <div className="slider-nav-btns">
-                    <button onClick={() => updateSlider(activeItem - 1)} className="carousel-nav-btn prev">
+                    <button onClick={() => updateSlider(activeIndex - 1)} className="carousel-nav-btn prev">
                         {__('Prev')}
                     </button>
-                    <button onClick={() => updateSlider(activeItem + 1)} className="carousel-nav-btn next">
+                    <button onClick={() => updateSlider(activeIndex + 1)} className="carousel-nav-btn next">
                         {__('Next')}
                     </button>
                 </div>)
             }
             {dots && (<div className="slider-dots">
                 {slides.map((_, index) => (
-                    <button onClick={() => updateSlider(index)} className={classnames('slider-dot', { 'active': index === activeItem })} />
+                    <button onClick={() => updateSlider(index)} className={classnames('slider-dot', { 'active': index === activeIndex })} />
                 ))}
             </div>)
             }
-            <div className="slider-wrapper"
+            <div
+                className="slider-wrapper"
                 onMouseEnter={() => setHovered(true)}
-                onMouseLeave={() => setHovered(false)}>
+                onMouseLeave={() => setHovered(false)}
+            >
                 <div className="slider" style={style}>
-                    {slides.map((slide) => <SliderItem key={slide} slide={slide} />)}
+                    {slides.map((slide, i) => (
+                        <div className="slider-item" >
+                            {
+                                slide.type === 'image' ?
+                                    <img src={slide.url} alt={slide.alt | slide.id} ref={el => slidesRef.current[i] = el} />
+                                    :
+                                    <video autoPlay muted controls ref={el => slidesRef.current[i] = el} >
+                                        <source src={slide.url} type="video/mp4" />
+                                    </video>
+                            }
+                        </div>
+                    ))}
                 </div>
             </div>
         </Fragment>
