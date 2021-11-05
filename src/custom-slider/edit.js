@@ -1,14 +1,22 @@
 /**
- * internal dependencies
+ * wordpress dependencies
  */
 import { __ } from "@wordpress/i18n";
 import {
 	PanelBody,
 	ToggleControl,
 	RangeControl,
-	TextControl
+	TextControl,
+	ColorPalette,
+	BaseControl,
+	Radio,
+	RadioGroup,
+	Button,
+	ButtonGroup,
 } from "@wordpress/components";
-import { Fragment } from "@wordpress/element";
+
+
+import { Fragment, useState } from "@wordpress/element";
 import {
 	InspectorControls,
 	MediaPlaceholder,
@@ -20,7 +28,12 @@ import {
  * external dependencies
  */
 import classnames from "classnames";
-import Slider from './slider'
+
+/**
+ * internal
+ */
+import { colors } from './utils';
+import Slider from './slider';
 
 
 export default function Edit(props) {
@@ -37,6 +50,9 @@ export default function Edit(props) {
 			links,
 			ctaBtns,
 			ctaBtnTexts,
+			ctaBtnColor,
+			ctaBtnBgColor,
+			ctaBtnBorderRadius,
 		},
 	} = props;
 
@@ -77,6 +93,7 @@ export default function Edit(props) {
 	}
 	const classNames = classnames("custom-carousel", className);
 
+	const [checked, setChecked] = useState('25');
 	return (
 		<Fragment>
 			{sliderItems.length > 0 && (
@@ -90,10 +107,9 @@ export default function Edit(props) {
 						{
 							autoPlay &&
 							<RangeControl
-								label={__('Autoplay Interval')}
+								label={__('Autoplay Interval (ms)')}
 								min={500}
 								max={4000}
-								help={__('In milliseconds')}
 								onChange={(value) => setAttributes({ autoPlayInterval: value })}
 								step={100}
 								value={autoPlayInterval}
@@ -116,7 +132,7 @@ export default function Edit(props) {
 						/>
 						<ToggleControl
 							checked={ctaBtns}
-							label={__("Show Buttons")}
+							label={__("Show CTA Buttons")}
 							onChange={(value) => setAttributes({ ctaBtns: value })}
 						/>
 
@@ -134,6 +150,39 @@ export default function Edit(props) {
 										/>
 									))
 								}
+							</PanelBody>
+						)
+					}
+					{
+						ctaBtns && (
+							<PanelBody title={__('Button Style')} initialOpen={false}>
+								{/* <ButtonGroup>
+									<Button isSmall variant="primary">{__('Left')}</Button>
+									<Button isSmall variant="primary">{__('Center')}</Button>
+									<Button isSmall variant="primary">{__('Right')}</Button>
+								</ButtonGroup> */}
+								<RangeControl
+									label={__('Border Radius')}
+									min={1}
+									max={50}
+									step={1}
+									allowReset
+									value={ctaBtnBorderRadius}
+									onChange={(value) => setAttributes({ ctaBtnBorderRadius: value })}
+								/>
+								<BaseControl.VisualLabel className="color-picker-label"> {__('Text Color')} </BaseControl.VisualLabel>
+								<ColorPalette
+									colors={colors}
+									value={ctaBtnColor}
+									onChange={(color) => { setAttributes({ ctaBtnColor: color }) }}
+								/>
+
+								<BaseControl.VisualLabel className="color-picker-label"> {__('Background Color')} </BaseControl.VisualLabel>
+								<ColorPalette
+									colors={colors}
+									value={ctaBtnBgColor}
+									onChange={(color) => { setAttributes({ ctaBtnBgColor: color }) }}
+								/>
 							</PanelBody>
 						)
 					}
@@ -160,29 +209,13 @@ export default function Edit(props) {
 							links={links}
 							ctaBtns={ctaBtns}
 							ctaBtnTexts={ctaBtnTexts}
+							ctaBtnStyle={{
+								borderRadius: ctaBtnBorderRadius,
+								backgroundColor: ctaBtnBgColor,
+								padding: '5px 20px',
+								color: ctaBtnColor,
+							}}
 							setAttributes={setAttributes} />
-						{/* <MediaUpload
-						multiple
-						onSelect={(selectedImage) => {
-							console.log(selectedImage);
-							// setAttributes({ [attr]: selectedImage });
-						}}
-						allowedTypes={["image", "video"]}
-						render={({ open }) => (
-							<button
-								className="qubely-button"
-								aria-label={__("Edit")}
-								onClick={open}
-								role="button"
-							>
-								<span
-									aria-label={__("Edit")}
-									className="fas fa-pencil-alt fa-fw"
-								/>
-							</button>
-						)}
-					/> */}
-
 					</div>
 				)}
 			</div>

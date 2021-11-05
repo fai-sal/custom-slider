@@ -14,6 +14,9 @@ export default function Save(props) {
 			links,
 			ctaBtns,
 			ctaBtnTexts,
+			ctaBtnColor,
+			ctaBtnBgColor,
+			ctaBtnBorderRadius,
 		},
 	} = props;
 
@@ -36,7 +39,13 @@ export default function Save(props) {
 						linkItems={linkItems}
 						links={links}
 						ctaBtns={ctaBtns}
-						ctaBtnTexts={ctaBtnTexts} />
+						ctaBtnTexts={ctaBtnTexts}
+						ctaBtnStyle={{
+							borderRadius: ctaBtnBorderRadius,
+							backgroundColor: ctaBtnBgColor,
+							padding: '5px 20px',
+							color: ctaBtnColor,
+						}} />
 				</div>
 			)}
 

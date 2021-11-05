@@ -35,6 +35,18 @@
 			"type": "number",
 			"default": 1500
 		},
+		"ctaBtnBorderRadius":{
+			"type": "number",
+			"default": 4
+		},
+		"ctaBtnColor":{
+			"type": "string",
+			"default": "#000"
+		},
+		"ctaBtnBgColor":{
+			"type": "string",
+			"default": "#fff"
+		},
 		"navArrows": {
 			"type": "boolean",
 			"default": true

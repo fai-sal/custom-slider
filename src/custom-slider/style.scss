@@ -20,14 +20,17 @@
 				max-width: 100%;
 				min-width: 100%;
 				display: inline-flex;
-				img {
+				img,
+				video {
 					height: 500px;
 					width: 100%;
 					object-fit: cover;
+					z-index: -1;
 				}
 				.cta-btn {
 					position: absolute;
-					bottom: 20%;
+					top: 5%;
+					right: 5%;
 					z-index: 1;
 				}
 			}
@@ -36,11 +39,32 @@
 
 	.slider-nav-btns {
 		position: absolute;
-		z-index: 1;
 		top: 50%;
 		width: 100%;
 		display: flex;
 		justify-content: space-between;
+		.slider-nav-btn {
+			z-index: 1;
+			display: inline-flex;
+			padding: 10px;
+			border: 1px solid #2084f9;
+			position: absolute;
+			cursor: pointer;
+			background-color: #fafafa !important;
+			transition: 0.3s;
+			border-radius: 10px;
+			&.prev {
+				left: 0;
+			}
+			&.next {
+				right: 0;
+			}
+			svg {
+				width: 20px;
+				height: 20px;
+				line-height: 20px;
+			}
+		}
 	}
 	.slider-dots {
 		position: absolute;
@@ -55,10 +79,11 @@
 			border: none;
 			cursor: pointer;
 			padding: 0;
-			background: black;
+			background: #fafafa !important;
 			border-radius: 5px;
 			&.active {
-				background: #ffa74a;
+				width: 30px;
+				background: #2084f9 !important;
 			}
 		}
 	}

@@ -33,24 +33,47 @@
         min-width: 100%;
         display: -ms-inline-flexbox;
         display: inline-flex; }
-        .gutenberg-custom-slider .slider-wrapper .slider .slider-item img {
+        .gutenberg-custom-slider .slider-wrapper .slider .slider-item img,
+        .gutenberg-custom-slider .slider-wrapper .slider .slider-item video {
           height: 500px;
           width: 100%;
           -o-object-fit: cover;
-             object-fit: cover; }
+             object-fit: cover;
+          z-index: -1; }
         .gutenberg-custom-slider .slider-wrapper .slider .slider-item .cta-btn {
           position: absolute;
-          bottom: 20%;
+          top: 5%;
+          right: 5%;
           z-index: 1; }
   .gutenberg-custom-slider .slider-nav-btns {
     position: absolute;
-    z-index: 1;
     top: 50%;
     width: 100%;
     display: -ms-flexbox;
     display: flex;
     -ms-flex-pack: justify;
         justify-content: space-between; }
+    .gutenberg-custom-slider .slider-nav-btns .slider-nav-btn {
+      z-index: 1;
+      display: -ms-inline-flexbox;
+      display: inline-flex;
+      padding: 10px;
+      border: 1px solid #2084f9;
+      position: absolute;
+      cursor: pointer;
+      background-color: #fafafa !important;
+      -webkit-transition: 0.3s;
+      -o-transition: 0.3s;
+      transition: 0.3s;
+      border-radius: 10px; }
+      .gutenberg-custom-slider .slider-nav-btns .slider-nav-btn.prev {
+        left: 0; }
+      .gutenberg-custom-slider .slider-nav-btns .slider-nav-btn.next {
+        right: 0; }
+      .gutenberg-custom-slider .slider-nav-btns .slider-nav-btn svg {
+        width: 20px;
+        height: 20px;
+        line-height: 20px; }
   .gutenberg-custom-slider .slider-dots {
     position: absolute;
     left: 50%;
@@ -66,7 +89,8 @@
       border: none;
       cursor: pointer;
       padding: 0;
-      background: black;
+      background: #fafafa !important;
       border-radius: 5px; }
       .gutenberg-custom-slider .slider-dots .slider-dot.active {
-        background: #ffa74a; }
+        width: 30px;
+        background: #2084f9 !important; }

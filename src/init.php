@@ -88,3 +88,5 @@ function custom_slider_cgb_block_assets() { // phpcs:ignore
 
 // Hook: Block assets.
 add_action( 'init', 'custom_slider_cgb_block_assets' );
+wp_enqueue_script( 'custom-slider', plugin_dir_url( __DIR__ ) . 'scripts/slider.js', array( 'jquery' ), '1.0.0', true );
+
