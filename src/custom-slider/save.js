@@ -24,11 +24,12 @@ export default function Save(props) {
 		autoPlay,
 		navArrows,
 		dots,
+		numofSlides: sliderItems.length,
 		interval: autoPlayInterval
 	}
-	const classNames = classnames("custom-carousel", className);
+	const classNames = classnames("media-slider", className);
 	return (
-		<div className={classNames}>
+		<div className={classNames} data-settings={JSON.stringify(sliderSettings)}>
 			{sliderItems.length === 0 ? (
 				<div> Upload Media </div>
 			) : (

@@ -61,9 +61,9 @@ const Slider = ({
                 transitionDelay = activeItem.fileLength;
             }
             const intervalId = setInterval(() => {
-                if (!isHovered) {
-                    setActiveIndex(() => (activeIndex + 1) % slides.length);
-                }
+                // if (!isHovered) {
+                setActiveIndex(() => (activeIndex + 1) % slides.length);
+                // }
             }, transitionDelay)
 
             return () => {
@@ -98,8 +98,8 @@ const Slider = ({
             }
             <div
                 className="slider-wrapper"
-                onMouseEnter={() => setHovered(true)}
-                onMouseLeave={() => setHovered(false)}
+            // onMouseEnter={() => setHovered(true)}
+            // onMouseLeave={() => setHovered(false)}
             >
                 <div className="slider" style={style}>
                     {slides.map((slide, i) => {

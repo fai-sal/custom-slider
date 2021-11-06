@@ -13,7 +13,7 @@ const Slider = ({
     ctaBtns,
     ctaBtnTexts,
     ctaBtnStyle,
-    sliderSettings: { autoPlay, navArrows, dots, interval }
+    sliderSettings: { navArrows, dots }
 }) => {
 
     return (
@@ -34,7 +34,7 @@ const Slider = ({
             }
             {dots && (<div className="slider-dots">
                 {slides.map((_, index) => (
-                    <button className={classnames('slider-dot')} />
+                    <button className={classnames('slider-dot')} data-index={index} />
                 ))}
             </div>)
             }

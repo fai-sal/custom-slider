@@ -91,7 +91,7 @@ export default function Edit(props) {
 		dots,
 		interval: autoPlayInterval
 	}
-	const classNames = classnames("custom-carousel", className);
+	const classNames = classnames("media-slider", className);
 
 	const [checked, setChecked] = useState('25');
 	return (
