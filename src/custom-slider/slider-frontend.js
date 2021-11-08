@@ -3,7 +3,7 @@
  */
 import { __ } from "@wordpress/i18n";
 import { Fragment } from '@wordpress/element';
-import { RichText } from '@wordpress/block-editor'
+import { RichText } from '@wordpress/block-editor';
 import classnames from 'classnames';
 
 const Slider = ({
@@ -34,7 +34,7 @@ const Slider = ({
             }
             {dots && (<div className="slider-dots">
                 {slides.map((_, index) => (
-                    <button className={classnames('slider-dot')} data-index={index} />
+                    <button className={classnames('slider-dot', { 'active': index === 0 })} data-index={index} />
                 ))}
             </div>)
             }
@@ -45,7 +45,7 @@ const Slider = ({
                     {slides.map((slide, i) => {
                         const Wraper = linkItems ? "a" : "div";
                         return (
-                            <Wraper className="slider-item" {...(linkItems && { href: `//${links[i]}`, target: 'blank' })}>
+                            <Wraper className={classnames("slider-item", { 'active': i === 0 })} {...(linkItems && { href: `//${links[i]}`, target: 'blank' })} data-type={slide.type} {...slide.type === 'video' && { 'data-videolength': slide.fileLength }}>
                                 {
                                     slide.type === 'image' ?
                                         <img src={slide.url} alt={slide.alt | slide.id} ref={el => slidesRef.current[i] = el} />

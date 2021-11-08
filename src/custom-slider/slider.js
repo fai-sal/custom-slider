@@ -56,23 +56,23 @@ const Slider = ({
 
     useEffect(() => {
         if (autoPlay) {
-            let transitionDelay = interval;
-            if (activeItem.type === 'video' && activeItem.fileLength > transitionDelay) {
-                transitionDelay = activeItem.fileLength;
+            let currentTimeout;
+            const gotoNextSlide = () => {
+                setActiveIndex((currentActiveIndex) => {
+                    const nextActiveIndex = (currentActiveIndex + 1) % slides.length;
+                    clearTimeout(currentTimeout);
+                    currentTimeout = setTimeout(gotoNextSlide, slides[nextActiveIndex].type === 'video' ? slides[nextActiveIndex].fileLength : interval);
+                    return nextActiveIndex;
+                });
             }
-            const intervalId = setInterval(() => {
-                // if (!isHovered) {
-                setActiveIndex(() => (activeIndex + 1) % slides.length);
-                // }
-            }, transitionDelay)
-
+            currentTimeout = setTimeout(gotoNextSlide, interval);
             return () => {
-                if (intervalId) {
-                    clearInterval(intervalId);
+                if (currentTimeout) {
+                    clearTimeout(currentTimeout);
                 }
             }
         }
-    }), [slides, autoPlay, interval];
+    }, [slides, autoPlay, interval]);
 
     return (
         <Fragment>
