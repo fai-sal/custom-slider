@@ -10,7 +10,9 @@ export default function Save(props) {
 			autoPlayInterval,
 			linkItems,
 			navArrows,
+			arrowPosition,
 			dots,
+			dotPosition,
 			links,
 			ctaBtns,
 			ctaBtnTexts,
@@ -46,7 +48,14 @@ export default function Save(props) {
 							backgroundColor: ctaBtnBgColor,
 							padding: '5px 20px',
 							color: ctaBtnColor,
-						}} />
+						}}
+						arrowStyle={{
+							bottom: `${arrowPosition}%`
+						}}
+						dotsStyle={{
+							bottom: `${dotPosition}%`
+						}}
+					/>
 				</div>
 			)}
 

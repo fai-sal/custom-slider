@@ -11,6 +11,8 @@ const Slider = ({
     linkItems,
     links,
     ctaBtns,
+    dotsStyle,
+    arrowStyle,
     ctaBtnTexts,
     ctaBtnStyle,
     sliderSettings: { navArrows, dots }
@@ -19,7 +21,7 @@ const Slider = ({
     return (
         <Fragment>
             {navArrows && (
-                <div className="slider-nav-btns">
+                <div className="slider-nav-btns" style={arrowStyle}>
                     <button className="slider-nav-btn prev">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512">
                             <path d="m31.7 239 136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z" />
@@ -32,20 +34,18 @@ const Slider = ({
                     </button>
                 </div>)
             }
-            {dots && (<div className="slider-dots">
+            {dots && (<div className="slider-dots" style={dotsStyle}>
                 {slides.map((_, index) => (
                     <button className={classnames('slider-dot', { 'active': index === 0 })} data-index={index} />
                 ))}
             </div>)
             }
-            <div
-                className="slider-wrapper"
-            >
+            <div className="slider-wrapper"  >
                 <div className="slider" >
                     {slides.map((slide, i) => {
                         const Wraper = linkItems ? "a" : "div";
                         return (
-                            <Wraper className={classnames("slider-item", { 'active': i === 0 })} {...(linkItems && { href: `//${links[i]}`, target: 'blank' })} data-type={slide.type} {...slide.type === 'video' && { 'data-videolength': slide.fileLength }}>
+                            <Wraper className={classnames("slider-item", { 'active': i === 0 })} {...(linkItems && { href: links[i] ? `//${links[i]}` : '#', target: 'blank' })} data-type={slide.type} {...slide.type === 'video' && { 'data-videolength': slide.fileLength }}>
                                 {
                                     slide.type === 'image' ?
                                         <img src={slide.url} alt={slide.alt | slide.id} ref={el => slidesRef.current[i] = el} />

@@ -31,8 +31,14 @@
             flex-basis: 100%;
         max-width: 100%;
         min-width: 100%;
-        display: -ms-inline-flexbox;
-        display: inline-flex; }
+        height: -webkit-fit-content;
+        height: -moz-fit-content;
+        height: fit-content; }
+        .gutenberg-custom-slider .slider-wrapper .slider .slider-item img,
+        .gutenberg-custom-slider .slider-wrapper .slider .slider-item video {
+          height: auto;
+          width: 100%;
+          z-index: -1; }
         .gutenberg-custom-slider .slider-wrapper .slider .slider-item .cta-btn {
           position: absolute;
           top: 5%;
@@ -40,7 +46,7 @@
           z-index: 1; }
   .gutenberg-custom-slider .slider-nav-btns {
     position: absolute;
-    top: 50%;
+    bottom: 50%;
     width: 100%;
     display: -ms-flexbox;
     display: flex;

@@ -7,3 +7,7 @@ export const colors = [
     { name: 'Blue"', color: '#d1dfe4' },
     { name: 'Purple', color: '#d1d1e4' }
 ];
+export const getVideoLength = (fileLength) => {
+    const [min, second] = fileLength.split(':');
+    return (parseInt(min) * 60 + parseInt(second)) * 1000
+}

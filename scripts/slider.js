@@ -11,7 +11,7 @@
         const slider = $('.slider-wrapper .slider', this);
         const navBtns = $('.slider-nav-btns', this).length;
         const dots = $('.slider-dots', this);
-
+        let currentTimeout;
         const updateSliderPosition = () => {
             slider[0].style.transform = `translateX(${(activeIndex * -100)}%)`;
         }
@@ -35,6 +35,12 @@
             $('.slider-item', this)[activeIndex].classList.add("active");
 
             updateSliderPosition();
+            if (autoPlay && currentTimeout) {
+                clearCurrentTimeout();
+                const activeSlider = $('.slider-item.active', this);
+                const { type, videolength } = activeSlider[0].dataset;
+                currentTimeout = setTimeout(triggerAutoPlay, type === 'video' ? videolength : interval);
+            }
             if (dots.length) {
                 updateActiveDot();
             }
@@ -57,22 +63,28 @@
                 updateActiveDot(event.target);
             });
         }
-        if (autoPlay) {
-            let currentTimeout;
-            const gotoNextSlide = () => {
-                updateSlider(activeIndex + 1);
-                const activeSlider = $('.slider-item.active', this);
-                const { type, videolength } = activeSlider[0].dataset;
+        const clearCurrentTimeout = () => {
+            if (currentTimeout) {
                 clearTimeout(currentTimeout);
-                currentTimeout = setTimeout(gotoNextSlide, type === 'video' ? videolength : interval);
-                if (type === 'video') {
-                    const video = $('video', activeSlider);
-                    if (video[0].ended) {
-                        video[0].play();
-                    }
+            }
+        }
+        const triggerAutoPlay = () => {
+            updateSlider(activeIndex + 1);
+            const activeSlider = $('.slider-item.active', this);
+            const { type, videolength } = activeSlider[0].dataset;
+            clearCurrentTimeout();
+            currentTimeout = setTimeout(triggerAutoPlay, type === 'video' ? videolength : interval);
+            if (type === 'video') {
+                const video = $('video', activeSlider);
+                if (video[0].ended) {
+                    video[0].play();
                 }
             }
-            currentTimeout = setTimeout(gotoNextSlide, interval);
+        }
+        if (autoPlay) {
+            const activeSlider = $('.slider-item.active', this);
+            const { type, videolength } = activeSlider[0].dataset;
+            currentTimeout = setTimeout(triggerAutoPlay, type === 'video' ? videolength : interval);
         }
     });
 })(jQuery);

@@ -20,3 +20,24 @@
 .color-picker-label {
   display: inline-block;
   margin-bottom: 12px; }
+
+.components-button-group.slider-item-action-btns {
+  position: absolute;
+  top: 5%;
+  left: 5%;
+  z-index: 1;
+  background-color: #fafafa;
+  border: 1px solid #1e1e1e; }
+  .components-button-group.slider-item-action-btns button {
+    -webkit-box-shadow: none;
+            box-shadow: none; }
+    .components-button-group.slider-item-action-btns button .dashicon {
+      color: #1e1e1e; }
+
+.cancel_media_upload {
+  position: absolute;
+  right: 0;
+  top: 5%; }
+
+.block-editor-media-placeholder.media-slider-appender {
+  margin-top: 20px; }

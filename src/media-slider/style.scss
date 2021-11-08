@@ -19,14 +19,13 @@
 				flex-basis: 100%;
 				max-width: 100%;
 				min-width: 100%;
-				display: inline-flex;
-				// img,
-				// video {
-				// 	height: 500px;
-				// 	width: 100%;
-				// 	object-fit: cover;
-				// 	z-index: -1;
-				// }
+				height: fit-content;
+				img,
+				video {
+					height: auto;
+					width: 100%;
+					z-index: -1;
+				}
 				.cta-btn {
 					position: absolute;
 					top: 5%;
@@ -39,7 +38,7 @@
 
 	.slider-nav-btns {
 		position: absolute;
-		top: 50%;
+		bottom: 50%;
 		width: 100%;
 		display: flex;
 		justify-content: space-between;

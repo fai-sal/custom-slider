@@ -9,18 +9,16 @@ import {
 	TextControl,
 	ColorPalette,
 	BaseControl,
-	Radio,
-	RadioGroup,
-	Button,
-	ButtonGroup,
 } from "@wordpress/components";
 
+import {
+	Fragment,
+	useState
+} from "@wordpress/element";
 
-import { Fragment, useState } from "@wordpress/element";
 import {
 	InspectorControls,
 	MediaPlaceholder,
-	MediaUpload,
 } from "@wordpress/block-editor";
 
 
@@ -32,12 +30,12 @@ import classnames from "classnames";
 /**
  * internal
  */
-import { colors } from './utils';
+import { colors, getVideoLength } from './utils';
 import Slider from './slider';
-
 
 export default function Edit(props) {
 	const {
+		isSelected,
 		className,
 		setAttributes,
 		attributes: {
@@ -46,7 +44,9 @@ export default function Edit(props) {
 			autoPlayInterval,
 			linkItems,
 			navArrows,
+			arrowPosition,
 			dots,
+			dotPosition,
 			links,
 			ctaBtns,
 			ctaBtnTexts,
@@ -56,18 +56,14 @@ export default function Edit(props) {
 		},
 	} = props;
 
-
-	const getVideoLength = (fileLength) => {
-		const [min, second] = fileLength.split(':');
-		return (parseInt(min) * 60 + parseInt(second)) * 1000
-	}
+	const [isEditing, setEdit] = useState(false);
 
 	/**
 	 * Update Carousel items 
 	 * on media selection
 	 * @param {*} selectedMedias 
 	 */
-	const onSelectMedia = (selectedMedias) => {
+	const onSelectMedia = (selectedMedias, isAppender) => {
 		const filteredData = selectedMedias.map(
 			({ id, type, alt, url, sizes, fileLength }) => ({
 				id,
@@ -80,9 +76,25 @@ export default function Edit(props) {
 				})
 			})
 		);
-		setAttributes({ sliderItems: filteredData })
+		setAttributes({ sliderItems: isAppender ? sliderItems.concat(filteredData) : filteredData })
 	};
 
+
+	const renderMediaPlaceholder = (isAppender = false) => {
+		return (
+			<MediaPlaceholder
+				multiple
+				accept="image/*,video/*"
+				onSelect={(selectedItems) => onSelectMedia(selectedItems, isAppender)}
+				allowedTypes={["image", "video"]}
+				labels={{
+					title: isAppender ? false : "Media Slider",
+					instructions: isAppender ? false : "Drag images or videos, upload new ones or select files from your library.",
+				}}
+				isAppender={isAppender}
+				className={isAppender ? "media-slider-appender" : "media-slider-mediaplaceholder"}
+			/>);
+	}
 
 	const sliderSettings = {
 		autoPlay,
@@ -90,6 +102,7 @@ export default function Edit(props) {
 		dots,
 		interval: autoPlayInterval
 	}
+
 	const classNames = classnames("media-slider", className);
 
 	return (
@@ -154,11 +167,6 @@ export default function Edit(props) {
 					{
 						ctaBtns && (
 							<PanelBody title={__('Button Style')} initialOpen={false}>
-								{/* <ButtonGroup>
-									<Button isSmall variant="primary">{__('Left')}</Button>
-									<Button isSmall variant="primary">{__('Center')}</Button>
-									<Button isSmall variant="primary">{__('Right')}</Button>
-								</ButtonGroup> */}
 								<RangeControl
 									label={__('Border Radius')}
 									min={1}
@@ -184,39 +192,69 @@ export default function Edit(props) {
 							</PanelBody>
 						)
 					}
+					{
+						navArrows && (
+							<PanelBody title={__('Arrows')} initialOpen={false}>
+								<RangeControl
+									label={__('Position')}
+									min={1}
+									max={100}
+									step={1}
+									value={arrowPosition}
+									onChange={(value) => setAttributes({ arrowPosition: value })}
+								/>
+							</PanelBody>
+						)
+					}
+					{
+						dots && (
+							<PanelBody title={__('Dots')} initialOpen={false}>
+								<RangeControl
+									label={__('Position')}
+									min={1}
+									max={50}
+									step={1}
+									value={dotPosition}
+									onChange={(value) => setAttributes({ dotPosition: value })}
+								/>
+							</PanelBody>
+						)
+					}
 				</InspectorControls>
 			)}
 			<div className={classNames}>
-				{sliderItems.length === 0 ? (
-					<MediaPlaceholder
-						multiple
-						accept="image/*,video/*"
-						onSelect={(selectedItems) => onSelectMedia(selectedItems)}
-						allowedTypes={["image", "video"]}
-						labels={{
-							title: "Media Slider",
-							instructions:
-								"Drag images or videos, upload new ones or select files from your library.",
-						}}
-					/>
-				) : (
-					<div className="gutenberg-custom-slider">
-						<Slider
-							slides={sliderItems}
-							sliderSettings={sliderSettings}
-							linkItems={linkItems}
-							links={links}
-							ctaBtns={ctaBtns}
-							ctaBtnTexts={ctaBtnTexts}
-							ctaBtnStyle={{
-								borderRadius: ctaBtnBorderRadius,
-								backgroundColor: ctaBtnBgColor,
-								padding: '5px 20px',
-								color: ctaBtnColor,
-							}}
-							setAttributes={setAttributes} />
-					</div>
-				)}
+				{sliderItems.length === 0 ?
+					renderMediaPlaceholder()
+					: (
+						<Fragment>
+							<div className="gutenberg-custom-slider">
+								<Slider
+									isSelected
+									isEditing={isEditing}
+									setEdit={setEdit}
+									slides={sliderItems}
+									sliderSettings={sliderSettings}
+									linkItems={linkItems}
+									links={links}
+									ctaBtns={ctaBtns}
+									ctaBtnTexts={ctaBtnTexts}
+									ctaBtnStyle={{
+										borderRadius: ctaBtnBorderRadius,
+										backgroundColor: ctaBtnBgColor,
+										padding: '5px 20px',
+										color: ctaBtnColor,
+									}}
+									arrowStyle={{
+										bottom: `${arrowPosition}%`
+									}}
+									dotsStyle={{
+										bottom: `${dotPosition}%`
+									}}
+									setAttributes={setAttributes} />
+							</div>
+							{isSelected && sliderItems.length && !isEditing && renderMediaPlaceholder(true)}
+						</Fragment>
+					)}
 			</div>
 		</Fragment>
 	);

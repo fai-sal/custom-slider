@@ -26,7 +26,6 @@
 			"type": "object",
 			"default":{}
 		},
-		
 		"autoPlay": {
 			"type": "boolean",
 			"default": true
@@ -51,9 +50,17 @@
 			"type": "boolean",
 			"default": true
 		},
+		"arrowPosition": {
+			"type": "number",
+			"default": 50
+		},
 		"dots": {
 			"type": "boolean",
 			"default": true
+		},
+		"dotPosition": {
+			"type": "number",
+			"default": 10
 		}
 	}
 }
