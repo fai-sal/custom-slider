@@ -68,7 +68,6 @@ export default function Edit(props) {
 	 * @param {*} selectedMedias 
 	 */
 	const onSelectMedia = (selectedMedias) => {
-		// console.log(selectedMedias)
 		const filteredData = selectedMedias.map(
 			({ id, type, alt, url, sizes, fileLength }) => ({
 				id,
@@ -93,7 +92,6 @@ export default function Edit(props) {
 	}
 	const classNames = classnames("media-slider", className);
 
-	const [checked, setChecked] = useState('25');
 	return (
 		<Fragment>
 			{sliderItems.length > 0 && (
@@ -192,6 +190,7 @@ export default function Edit(props) {
 				{sliderItems.length === 0 ? (
 					<MediaPlaceholder
 						multiple
+						accept="image/*,video/*"
 						onSelect={(selectedItems) => onSelectMedia(selectedItems)}
 						allowedTypes={["image", "video"]}
 						labels={{

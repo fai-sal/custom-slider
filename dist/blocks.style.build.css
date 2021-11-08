@@ -33,13 +33,6 @@
         min-width: 100%;
         display: -ms-inline-flexbox;
         display: inline-flex; }
-        .gutenberg-custom-slider .slider-wrapper .slider .slider-item img,
-        .gutenberg-custom-slider .slider-wrapper .slider .slider-item video {
-          height: 500px;
-          width: 100%;
-          -o-object-fit: cover;
-             object-fit: cover;
-          z-index: -1; }
         .gutenberg-custom-slider .slider-wrapper .slider .slider-item .cta-btn {
           position: absolute;
           top: 5%;

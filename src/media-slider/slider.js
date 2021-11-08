@@ -18,7 +18,7 @@ const Slider = ({
 }) => {
 
     const [activeIndex, setActiveIndex] = useState(0);
-    const [isHovered, setHovered] = useState(false);
+    // const currentTimeout = useRef(false);
     const slidesRef = useRef([]);
 
     useEffect(() => {
@@ -31,11 +31,11 @@ const Slider = ({
      */
     const updateSlider = (newIndex) => {
         if (newIndex < 0) {
-            setActiveIndex(slides.length - 1)
+            setActiveIndex(slides.length - 1);
         } else if (newIndex >= slides.length) {
-            setActiveIndex(0)
+            setActiveIndex(0);
         } else {
-            setActiveIndex(newIndex)
+            setActiveIndex(newIndex);
         }
     }
 
@@ -49,7 +49,7 @@ const Slider = ({
      */
     useEffect(() => {
         if (activeItem.type === 'video') {
-            slidesRef.current[activeIndex].play()
+            slidesRef.current[activeIndex].play();
         }
     }, [activeIndex]);
 

@@ -2,4 +2,4 @@
  * Gutenberg Blocks
  */
 
-import "./custom-slider";
+import "./media-slider";
